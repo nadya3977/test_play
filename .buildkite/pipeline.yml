@@ -1,0 +1,28 @@
+env:
+  ACCOUNT_ID_SANDPIT: '009938142092'
+  ACCOUNT_ID_BUILD: '285858532195'
+  ACCOUNT_ID_DEV: '016192371793'
+  ACCOUNT_ID_STAGING: '778082898154'
+  ACCOUNT_ID_PRODUCTION: '519920317464'
+  ASSUME_ROLE: DeployECS
+  DOCKER_DEPLOY_ECS: ${ACCOUNT_ID_BUILD}.dkr.ecr.ap-southeast-2.amazonaws.com/docker-deploy-ecs:latest
+  IMAGE_NAME: sample-app
+steps:
+  - label: ':ecr: Create Repo and set Repo Policy'
+    plugins:
+      ecr#v1.1.3:
+        login: true
+    command: .buildkite/scripts/create_repos.sh
+  - label: ':ecr: Build Application'
+    plugins:
+      ecr#v1.1.3:
+        login: true
+    command: .buildkite/scripts/build.sh
+  - block: Deploy to Dev
+  - label: ':ecr: Deploy to Dev'
+    plugins:
+      cultureamp/aws-assume-role:
+        role: arn:aws:iam::${ACCOUNT_ID_DEV}:role/${ASSUME_ROLE}
+    command: .buildkite/scripts/deploy.sh
+    env:
+      TRAEFIK_ENVIRONMENT: evc.dev

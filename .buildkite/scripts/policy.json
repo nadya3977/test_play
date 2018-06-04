@@ -1,0 +1,22 @@
+{
+    "Version": "2008-10-17",
+    "Statement": [
+        {
+            "Sid": "pullRequest",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": [
+                    "arn:aws:iam::009938142092:root",
+                    "arn:aws:iam::778082898154:root",
+                    "arn:aws:iam::016192371793:root",
+                    "arn:aws:iam::519920317464:root"
+                ]
+            },
+            "Action": [
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:BatchGetImage",
+                "ecr:BatchCheckLayerAvailability"
+            ]
+        }
+    ]
+}
