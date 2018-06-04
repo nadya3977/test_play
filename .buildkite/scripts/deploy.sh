@@ -48,9 +48,9 @@ ECS_CLI="docker run -e AWS_ACCESS_KEY_ID \
                     compose \
                     --project-name ${IMAGE_NAME} \
                     -c ${ECS_CLUSTER_NAME}"
-cat ${BASE_DIR}/deploy.env
 
-set -x
+echo "::: Creating service if it doesn't already exist."
+${ECS_CLI} service create || true
 
-${ECS_CLI} service create
+echo "Deploying task."
 ${ECS_CLI} service up

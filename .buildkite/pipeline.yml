@@ -7,6 +7,7 @@ env:
   ASSUME_ROLE: DeployECS
   DOCKER_DEPLOY_ECS: ${ACCOUNT_ID_BUILD}.dkr.ecr.ap-southeast-2.amazonaws.com/docker-deploy-ecs:latest
   IMAGE_NAME: sample-app
+  ECS_CLUSTER_NAME: cluster-evc
 steps:
   - label: ':ecr: Build Application'
     plugins:
