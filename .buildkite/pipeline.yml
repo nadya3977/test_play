@@ -18,7 +18,7 @@ steps:
   - label: ':ecr: Deploy to Dev'
     plugins:
       cultureamp/aws-assume-role:
-        role: arn:aws:iam::${ACCOUNT_ID_DEV}:role/${ASSUME_ROLE}
+        role: arn:aws:iam::${ACCOUNT_ID_DEV}:role/${DeployECS}
     command: .buildkite/scripts/deploy.sh
     env:
       TRAEFIK_ENVIRONMENT: evc.dev

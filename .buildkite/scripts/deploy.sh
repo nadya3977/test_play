@@ -18,23 +18,8 @@ function load_role() {
     export AWS_SESSION_TOKEN=$(awk -F '=' '{if (! ($0 ~ /^;/) && $0 ~ /aws_session_token/) print $2}' ~/.aws/credentials | tr -d ' ')
 }
 
-function assume_role() {
-    echo "+++ :aws: Configure CodeCommit credentials helper | Assume AMI build role"
-
-    echo "Assume role: arn:aws:iam::${TARGET_ACCOUNT_ID}:role/${TARGET_ACCOUNT_ROLE}"
-    temp_role=$(aws sts assume-role \
-                        --role-arn "arn:aws:iam::${TARGET_ACCOUNT_ID}:role/${TARGET_ACCOUNT_ROLE}" \
-                        --role-session-name "docker-ecs-deploy-${IMAGE_NAME}")
-
-    export AWS_ACCESS_KEY_ID=$(echo $temp_role | jq .Credentials.AccessKeyId | xargs)
-    export AWS_SECRET_ACCESS_KEY=$(echo $temp_role | jq .Credentials.SecretAccessKey | xargs)
-    export AWS_SESSION_TOKEN=$(echo $temp_role | jq .Credentials.SessionToken | xargs)
-}
-
 if [ -z "${CI}" ]; then
     load_role
-else
-    assume_role
 fi
 
 ECS_CLI="docker run -e AWS_ACCESS_KEY_ID \
