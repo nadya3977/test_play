@@ -1,14 +1,20 @@
 #!/bin/bash
 BASE_DIR="$(dirname $(realpath $0))"
 DOCKER_DEPLOY_ECS=${DOCKER_DEPLOY_ECS:-local/ecs-cli}
-IMAGE_VERSION="${IMAGE_VERSION:-latest}"
-
 if [ -z "${TRAEFIK_ENVIRONMENT}" ]; then
-    echo "Missing environment variavle TRAEFIK_ENVIRONMENT, exiting."
+    echo "Missing environment variable TRAEFIK_ENVIRONMENT, exiting."
     exit 1
 fi
 if [ -z "${ECS_CLUSTER_NAME}" ]; then
-    echo "Missing environment variavle ECS_CLUSTER_NAME, exiting."
+    echo "Missing environment variable ECS_CLUSTER_NAME, exiting."
+    exit 1
+fi
+if [ -z "${IMAGE_NAME}" ]; then
+    echo "Missing environment variable IMAGE_NAME, exiting."
+    exit 1
+fi
+if [ -z "${IMAGE_VERSION}" ]; then
+    echo "Missing environment variable IMAGE_VERSION, exiting."
     exit 1
 fi
  
@@ -22,20 +28,24 @@ if [ -z "${CI}" ]; then
     load_role
 fi
 
+set -euo pipefail
+
 ECS_CLI="docker run -e AWS_ACCESS_KEY_ID \
                     -e AWS_SECRET_ACCESS_KEY \
                     -e AWS_SESSION_TOKEN \
                     -e ACCOUNT_ID_BUILD \
                     -e TRAEFIK_ENVIRONMENT \
+                    -e IMAGE_NAME \
+                    -e IMAGE_VERSION \
                     --env-file=${BASE_DIR}/deploy.env \
                     -v ${BASE_DIR}:/app \
                     ${DOCKER_DEPLOY_ECS} \
                     compose \
-                    --project-name ${IMAGE_NAME} \
+                    --project-name ${ECS_TASK_NAME} \
                     -c ${ECS_CLUSTER_NAME}"
 
-echo "::: Creating service if it doesn't already exist."
+echo "::: Creating service if it doesn't already exist. Will fail with false error if service already exists."
 ${ECS_CLI} service create || true
 
-echo "Deploying task."
+echo "::: Deploying task."
 ${ECS_CLI} service up

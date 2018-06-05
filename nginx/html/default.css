@@ -1,0 +1,42 @@
+body {
+    background-image: linear-gradient(
+        rgba(0, 0, 0, 0.2),
+        rgba(0, 0, 0, 0.2)
+      ),url(./splash.jpg);
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative;
+      color: white;
+}
+
+.masthead.segment {
+    min-height: 400px;
+    padding: 3em 0em;
+}
+
+.masthead .logo.item img {
+    margin-right: 1em;
+}
+.masthead .ui.menu .ui.button {
+    margin-left: 0.5em;
+}
+.masthead h1.ui.header {
+    margin-top: 2em;
+    margin-bottom: 0em;
+    color: white;
+    font-size: 4em;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: normal;
+}
+
+.masthead h2 {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    font-size: 1.7em;
+    font-weight: normal;
+}
+
+.link, .link:hover {
+    color: white;
+}

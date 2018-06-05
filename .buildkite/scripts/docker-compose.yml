@@ -1,14 +1,16 @@
 version: '2'
 services:
-  tta-upgrade-manager:
+  sample-app:
     image: ${ACCOUNT_ID_BUILD}.dkr.ecr.ap-southeast-2.amazonaws.com/${IMAGE_NAME}:${IMAGE_VERSION}
-    cpu_shares: ${DOCKER_CPU}
-    mem_limit: "${DOCKER_MEMORY}"
+    # cpu_shares: ${DOCKER_CPU}
+    # mem_limit: ${DOCKER_MEMORY}
     ports:
       - "${DOCKER_CONTAINER_PORT}"
+    environment:
+      NGINX_PORT: ${DOCKER_CONTAINER_PORT}
     labels:
       - "traefik.frontend.rule=Host: ${TRAEFIK_HOSTNAME}.${TRAEFIK_ENVIRONMENT}.${TRAEFIK_DOMAIN}"
-      - "traefik.backend.healthcheck.path=${TRAEFIK_BACKEND_HEALTHCHECK_PATH}"
+      - "traefik.backend.healthcheck.path=${TRAEFIK_HEALTHCHECK}"
       - "traefik.protocol=${TRAEFIK_PROTOCOL}"
       - "traefik.enabled=true"
     logging:

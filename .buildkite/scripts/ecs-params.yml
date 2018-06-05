@@ -1,5 +1,5 @@
 version: 1
 task_definition:
   task_size:
-    cpu_limit: 500
-    mem_limit: 128MB
+    # cpu_limit: 500
+    # mem_limit: ${MEM_LIMIT}

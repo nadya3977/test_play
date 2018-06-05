@@ -5,20 +5,21 @@ env:
   ACCOUNT_ID_STAGING: '778082898154'
   ACCOUNT_ID_PRODUCTION: '519920317464'
   ASSUME_ROLE: DeployECS
-  DOCKER_DEPLOY_ECS: ${ACCOUNT_ID_BUILD}.dkr.ecr.ap-southeast-2.amazonaws.com/docker-deploy-ecs:latest
+  DOCKER_DEPLOY_ECS: ${ACCOUNT_ID_BUILD}.dkr.ecr.ap-southeast-2.amazonaws.com/docker-ecs-deploy:latest
   IMAGE_NAME: sample-app
+  IMAGE_VERSION: 1.0.${BUILDKITE_BUILD_NUMBER}
   ECS_CLUSTER_NAME: cluster-evc
+  ECS_TASK_NAME: sample-app
 steps:
   - label: ':ecr: Build Application'
     plugins:
       ecr#v1.1.3:
         login: true
     command: .buildkite/scripts/build.sh
-  - block: Deploy to Dev
   - label: ':ecr: Deploy to Dev'
     plugins:
       cultureamp/aws-assume-role:
-        role: arn:aws:iam::${ACCOUNT_ID_DEV}:role/${DeployECS}
+        role: arn:aws:iam::${ACCOUNT_ID_DEV}:role/${ASSUME_ROLE}
     command: .buildkite/scripts/deploy.sh
     env:
       TRAEFIK_ENVIRONMENT: evc.dev

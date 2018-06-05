@@ -15,6 +15,6 @@ echo "Setting ECR policy for ${IMAGE_NAME}."
 RESULT="$(aws ecr set-repository-policy --repository-name "${IMAGE_NAME}" --policy-text file://${JSON_PATH})"
 echo "Successfully set policy."
 
-docker build -t ${ACCOUNT_ID_BUILD}.dkr.ecr.ap-southeast-2.amazonaws.com/${IMAGE_NAME}:${IMAGE_VERSION:-latest} .
-docker push ${ACCOUNT_ID_BUILD}.dkr.ecr.ap-southeast-2.amazonaws.com/${IMAGE_NAME}:${IMAGE_VERSION:-latest}
+docker build -t ${ACCOUNT_ID_BUILD}.dkr.ecr.ap-southeast-2.amazonaws.com/${IMAGE_NAME}:${IMAGE_VERSION} .
+docker push ${ACCOUNT_ID_BUILD}.dkr.ecr.ap-southeast-2.amazonaws.com/${IMAGE_NAME}:${IMAGE_VERSION}
 
