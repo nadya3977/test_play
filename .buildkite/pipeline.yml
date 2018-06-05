@@ -10,6 +10,7 @@ env:
   IMAGE_VERSION: 1.0.${BUILDKITE_BUILD_NUMBER}
   ECS_CLUSTER_NAME: cluster-evc
   ECS_TASK_NAME: sample-app
+  ECS_DESIRED_COUNT: 1
 steps:
   - label: ':ecr: Build Application'
     plugins:

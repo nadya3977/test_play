@@ -1,6 +1,8 @@
 #!/bin/bash
 BASE_DIR="$(dirname $(realpath $0))"
-DOCKER_DEPLOY_ECS=${DOCKER_DEPLOY_ECS:-local/ecs-cli}
+DOCKER_DEPLOY_ECS="${DOCKER_DEPLOY_ECS:-local/ecs-cli}"
+ECS_DESIRED_COUNT="${ECS_DESIRED_COUNT:-1}"
+
 if [ -z "${TRAEFIK_ENVIRONMENT}" ]; then
     echo "Missing environment variable TRAEFIK_ENVIRONMENT, exiting."
     exit 1
@@ -49,3 +51,6 @@ ${ECS_CLI} service create || true
 
 echo "::: Deploying task."
 ${ECS_CLI} service up
+
+echo "::: Scaling task to ${ECS_DESIRED_COUNT} instances."
+${ECS_CLI} service scale "${ECS_DESIRED_COUNT}"
