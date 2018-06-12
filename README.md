@@ -48,6 +48,7 @@ The following variables should be configured:
 *   `ECS_TASK_NAME`: This is the name your Service and Task definition will be created as.
 *   `ECS_CLUSTER_NAME`: This is the name of the cluster you are targeting (default `cluster-evc` is okay if you are not using your own)
 *   `TRAEFIK_ENVIRONMENT` This is the cluster host slice for the particular environment (eg. `evc.dev`, `evc.staging`, etc.)
+*   `ECS_DESIRED_COUNT`: The number of instances of your service you would like to run (default `1` if not set)
 
 ### .buildkite/scripts/policy.json
 
@@ -63,7 +64,6 @@ settings need to be changed to reflect your app:
 | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | `LOG_GROUP`             | This is the main logging group in CloudWatch your app will log to.                                                                                        | `ecs-evc`    |
 | `LOG_STREAM_PREFIX`     | This is the prefix your ECS service service will prepend your CloudWatch logs to (group/prefix/task_name)                                                 | `sample_app` |
-| `ECS_DESIRED_COUNT`     | The number of instances of your service you would like to run                                                                                             | `1`          |
 | `DOCKER_CONTAINER_PORT` | The port the service your Docker container exposes internally.                                                                                            | `8080`       |
 | `DOCKER_CPU`            | The number of CPUs your Docker service wishes to allocate to itself. Your service will not deploy if there is not enouch capacity. 0 to disable.          | `0`          |
 | `DOCKER_MEMORY`         | The amount of memory your Docker service wishes to allocate to itself. Your service will not deploy if there is not enouch capacity. _Required to be set_ | `524288`     |
@@ -142,5 +142,5 @@ The Traefik read-only backend can be found in the following locations. This will
 
 *   [Sandpit Traefik](https://traefik.evc.sandpit.tyro.cloud)
 *   [Dev Traefik](https://traefik.evc.dev.tyro.cloud)
-*   [Staging Traefik](https://traefik.evc.staging.tyro.cloud)
-*   [Prod Traefik](https://traefik.evc.tyro.cloud)
+*   [Staging Traefik](https://traefik.evc.stage.tyro.cloud)
+*   [Prod Traefik](https://traefik.prod.evc.tyro.cloud)

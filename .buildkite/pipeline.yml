@@ -24,3 +24,23 @@ steps:
     command: .buildkite/scripts/deploy.sh
     env:
       TRAEFIK_ENVIRONMENT: evc.dev
+  - block: ':ecr: Deploy to Staging'
+    branches: master
+  - label: ':ecr: Deploy to Staging'
+    branches: master
+    plugins:
+      cultureamp/aws-assume-role:
+        role: arn:aws:iam::${ACCOUNT_ID_STAGING}:role/${ASSUME_ROLE}
+    command: .buildkite/scripts/deploy.sh
+    env:
+      TRAEFIK_ENVIRONMENT: evc.stage
+  - block: ':ecr: Deploy to Production'
+    branches: master
+  - label: ':ecr: Deploy to Production'
+    branches: master
+    plugins:
+      cultureamp/aws-assume-role:
+        role: arn:aws:iam::${ACCOUNT_ID_PRODUCTION}:role/${ASSUME_ROLE}
+    command: .buildkite/scripts/deploy.sh
+    env:
+      TRAEFIK_ENVIRONMENT: evc.prod
