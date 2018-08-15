@@ -44,4 +44,4 @@ steps:
         role: arn:aws:iam::${ACCOUNT_ID_PRODUCTION}:role/${ASSUME_ROLE}
     command: .buildkite/scripts/deploy.sh
     env:
-      TRAEFIK_ENVIRONMENT: evc.prod
+      TRAEFIK_ENVIRONMENT: evc.prd
