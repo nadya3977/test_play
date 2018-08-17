@@ -113,18 +113,29 @@ The ECS cluster can also run standard tasks without Traefik endpoints. Simply re
 
 The sample app service can be deployed to the Sandpit account if you have FullAdmin access with the following command:
 
+:warning: If you are using a mac you will need to `brew install coreutils` and follow the instructions to use the functions without the g prefix.
+
 ```bash
 ECS_CLUSTER_NAME=cluster-evc \
 ECS_TASK_NAME=sample-app \
 IMAGE_NAME=sample-app \
 IMAGE_VERSION=latest \
 TRAEFIK_ENVIRONMENT=evc.sandpit \
+ACCOUNT_ID_BUILD=009938142092 \
 .buildkite/scripts/deploy.sh
+```
+
+If you do not have the [docker-ecs-deploy](https://github.com/tyro-private/docker-ecs-deploy) container in your local registry, you will need to add an additional variable to the command above
+
+```bash
+DOCKER_DEPLOY_ECS=009938142092.dkr.ecr.ap-southeast-2.amazonaws.com/docker-ecs-deploy:latest
 ```
 
 This will then be available at `https://$TRAEFIK_HOSTNAME.evc.sandpit.tyro.cloud`
 
 Your app can also be deployed to the Sandpit account too if you have a Docker image built and subsitute `IMAGE_NAME` and `IMAGE_VERSION` for your appropriate vars.
+
+
 
 ### Target Accounts
 
