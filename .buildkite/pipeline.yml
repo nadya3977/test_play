@@ -34,7 +34,7 @@ steps:
         role: arn:aws:iam::${ACCOUNT_ID_STAGING}:role/${ASSUME_ROLE}
     command: .buildkite/scripts/deploy.sh
     env:
-      TRAEFIK_ENVIRONMENT: evc.stage
+      TRAEFIK_ENVIRONMENT: evc.stg
   - block: ':ecr: Deploy to Production'
     branches: master
   - label: ':ecr: Deploy to Production'
