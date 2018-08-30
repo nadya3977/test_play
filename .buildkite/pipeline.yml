@@ -18,6 +18,13 @@ steps:
         login: true
     command: .buildkite/scripts/build.sh
   - wait:
+  - label: ':ecr: Deploy to Sandpit'
+    plugins:
+      cultureamp/aws-assume-role:
+        role: arn:aws:iam::${ACCOUNT_ID_SANDPIT}:role/${ASSUME_ROLE}
+    command: .buildkite/scripts/deploy.sh
+    env:
+      TRAEFIK_ENVIRONMENT: evc.pit
   - label: ':ecr: Deploy to Dev'
     plugins:
       cultureamp/aws-assume-role:
